@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { RefreshCw, Moon, Sun } from "lucide-react";
 import NumberTile from "./NumberTile";
@@ -94,7 +93,7 @@ const GameBoard: React.FC = () => {
   const toggleDarkMode = useCallback(() => {
     setIsDarkMode((prev) => !prev);
   }, []);
-
+  
   // Function to determine if a digit is in the correct position
   const isDigitCorrect = (digit: string, index: number): boolean => {
     // The winning sequence has TARGET_SEQUENCE followed by EMPTY_TILE

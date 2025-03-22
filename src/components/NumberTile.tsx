@@ -34,7 +34,7 @@ const NumberTile: React.FC<NumberTileProps> = ({
         "number-tile flex items-center justify-center font-mono font-bold select-none",
         "text-3xl md:text-4xl lg:text-5xl w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24",
         "rounded-xl shadow-md transition-all duration-300",
-        isEmpty ? "invisible" : getTileColor(number, isDarkMode),
+        isEmpty ? "invisible" : (isCorrect ? getTileColor(number, isDarkMode) : isDarkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-800"),
         isAdjacentToEmpty && !isEmpty ? "cursor-pointer transform hover:scale-105" : "cursor-default",
         isCorrect && !isEmpty ? "ring-2 ring-green-500 dark:ring-green-400" : "",
       )}
