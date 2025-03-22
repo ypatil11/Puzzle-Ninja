@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { Award, Clock, Trophy } from "lucide-react";
 import { formatTime } from "../utils/gameUtils";
+import Fireworks from "./Fireworks";
 
 interface WinModalProps {
   isOpen: boolean;
@@ -30,6 +31,8 @@ const WinModal: React.FC<WinModalProps> = ({ isOpen, onClose, time, bestTime }) 
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+      {isOpen && <Fireworks />}
+      
       <div className="glass rounded-2xl p-6 md:p-8 w-full max-w-sm animate-scale-in">
         <div className="flex flex-col items-center text-center">
           <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 animate-float">
