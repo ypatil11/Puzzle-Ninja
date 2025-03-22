@@ -14,10 +14,10 @@ import {
   formatTime 
 } from "../utils/gameUtils";
 
-// Detect if touch device for choosing the right DnD backend
-const isTouchDevice = () => {
-  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-};
+// Create a custom backend based on device type
+const DndBackend = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  ? TouchBackend
+  : HTML5Backend;
 
 const GameBoard: React.FC = () => {
   // State
@@ -82,11 +82,8 @@ const GameBoard: React.FC = () => {
     return TARGET_SEQUENCE[index] === digit && hasWon;
   };
 
-  // Choose the right backend based on device
-  const backend = isTouchDevice() ? TouchBackend : HTML5Backend;
-
   return (
-    <DndProvider backend={backend}>
+    <DndProvider backend={DndBackend}>
       <div className="game-container flex flex-col items-center justify-center w-full animate-fade-in">
         {/* Game header */}
         <div className="flex flex-col items-center mb-8 w-full">

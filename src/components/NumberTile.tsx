@@ -22,7 +22,7 @@ const NumberTile: React.FC<NumberTileProps> = ({ number, index, isCorrect, moveN
   // Setup drag functionality
   const [{ isDragging }, drag] = useDrag({
     type: ITEM_TYPE,
-    item: { index } as DragItem,
+    item: { index, type: ITEM_TYPE } as DragItem,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -47,10 +47,12 @@ const NumberTile: React.FC<NumberTileProps> = ({ number, index, isCorrect, moveN
   return (
     <div
       ref={ref}
-      className={`number-tile text-3xl md:text-4xl lg:text-5xl w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20
+      className={`number-tile flex items-center justify-center font-mono font-bold 
+        text-3xl md:text-4xl lg:text-5xl w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20
+        rounded-lg shadow-md cursor-move
         ${isDragging ? "opacity-50" : "opacity-100"}
-        ${isOver ? "bg-gray-100 dark:bg-gray-800" : ""}
-        ${isCorrect ? "winner-tile" : ""}
+        ${isOver ? "bg-gray-100 dark:bg-gray-800" : "bg-white dark:bg-gray-700"}
+        ${isCorrect ? "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300" : ""}
       `}
       style={{
         transform: `${isDragging ? "scale(1.05)" : "scale(1)"}`,
