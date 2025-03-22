@@ -1,12 +1,15 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from "react";
+import GameBoard from "../components/GameBoard";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+      <GameBoard />
+      
+      <footer className="mt-10 text-xs text-center text-gray-500 dark:text-gray-400 animate-fade-in" style={{ animationDelay: "0.6s" }}>
+        <p>Drag tiles to arrange them in the correct order. You can also click to select and then click another tile to swap.</p>
+      </footer>
     </div>
   );
 };
