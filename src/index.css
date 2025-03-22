@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
+    --background: 210 40% 96%;
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -46,7 +46,7 @@
   }
 
   .dark {
-    --background: 222 47% 11%;
+    --background: 210 30% 10%;
     --foreground: 210 40% 98%;
 
     --card: 222 47% 11%;
@@ -91,7 +91,8 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-gradient-to-br from-background to-secondary text-foreground antialiased min-h-screen;
+    background-attachment: fixed;
   }
 }
 
@@ -104,25 +105,14 @@
 }
 
 .number-tile {
-  @apply relative flex items-center justify-center bg-white rounded-xl shadow-md cursor-pointer select-none font-medium transition-all duration-300 text-gray-800;
+  @apply relative flex items-center justify-center bg-white rounded-xl shadow-md 
+         select-none font-medium transition-all duration-300 text-gray-800;
   transition-property: transform, box-shadow, background-color;
   -webkit-tap-highlight-color: transparent;
 }
 
-.number-tile:hover {
-  @apply shadow-lg transform scale-105 z-10;
-}
-
 .number-tile:active {
   @apply shadow-sm transform scale-95;
-}
-
-.winner-tile {
-  @apply bg-emerald-50 text-emerald-900 border-2 border-emerald-400;
-}
-
-.dark .winner-tile {
-  @apply bg-emerald-900/30 text-emerald-200 border-2 border-emerald-600;
 }
 
 .timer-container {
@@ -151,4 +141,18 @@
 
 .celebrate {
   animation: celebrate-pop 0.4s ease-out;
+}
+
+@keyframes tile-slide {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(5px) translateY(0); }
+  30% { transform: translateX(0) translateY(5px); }
+  50% { transform: translateX(-5px) translateY(0); }
+  70% { transform: translateX(0) translateY(-5px); }
+  90% { transform: translateX(5px) translateY(0); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+.tile-error {
+  animation: tile-slide 0.4s ease-in-out;
 }

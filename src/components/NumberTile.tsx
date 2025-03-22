@@ -1,63 +1,50 @@
 
-import React, { useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import React from "react";
+import { cn } from "@/lib/utils";
+import { EMPTY_TILE, getTileColor } from "../utils/gameUtils";
 
 interface NumberTileProps {
   number: string;
   index: number;
   isCorrect: boolean;
-  moveNumber: (fromIndex: number, toIndex: number) => void;
+  isAdjacentToEmpty: boolean;
+  onClick: (index: number) => void;
+  isDarkMode: boolean;
 }
 
-type DragItem = {
-  index: number;
-  type: string;
-};
-
-const ITEM_TYPE = "number-tile";
-
-const NumberTile: React.FC<NumberTileProps> = ({ number, index, isCorrect, moveNumber }) => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  // Setup drag functionality
-  const [{ isDragging }, drag] = useDrag({
-    type: ITEM_TYPE,
-    item: { index, type: ITEM_TYPE } as DragItem,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  // Setup drop functionality
-  const [{ isOver }, drop] = useDrop({
-    accept: ITEM_TYPE,
-    drop: (item: DragItem) => {
-      if (item.index !== index) {
-        moveNumber(item.index, index);
-      }
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  });
-
-  // Combine drag and drop refs
-  drag(drop(ref));
+const NumberTile: React.FC<NumberTileProps> = ({ 
+  number, 
+  index, 
+  isCorrect, 
+  isAdjacentToEmpty, 
+  onClick,
+  isDarkMode
+}) => {
+  const isEmpty = number === EMPTY_TILE;
+  
+  const handleClick = () => {
+    if (isAdjacentToEmpty) {
+      onClick(index);
+    }
+  };
 
   return (
     <div
-      ref={ref}
-      className={`number-tile flex items-center justify-center font-mono font-bold 
-        text-3xl md:text-4xl lg:text-5xl w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20
-        rounded-lg shadow-md cursor-move
-        ${isDragging ? "opacity-50" : "opacity-100"}
-        ${isOver ? "bg-gray-100 dark:bg-gray-800" : "bg-white dark:bg-gray-700"}
-        ${isCorrect ? "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300" : ""}
-      `}
+      className={cn(
+        "number-tile flex items-center justify-center font-mono font-bold select-none",
+        "text-3xl md:text-4xl lg:text-5xl w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24",
+        "rounded-xl shadow-md transition-all duration-300",
+        isEmpty ? "invisible" : getTileColor(number, isDarkMode),
+        isAdjacentToEmpty && !isEmpty ? "cursor-pointer transform hover:scale-105" : "cursor-default",
+        isCorrect && !isEmpty ? "ring-2 ring-green-500 dark:ring-green-400" : "",
+      )}
+      onClick={handleClick}
       style={{
-        transform: `${isDragging ? "scale(1.05)" : "scale(1)"}`,
         transition: "transform 0.2s, opacity 0.2s, background-color 0.3s",
       }}
+      aria-label={`Tile ${number}`}
+      role="button"
+      tabIndex={isEmpty ? -1 : 0}
     >
       {number}
     </div>
