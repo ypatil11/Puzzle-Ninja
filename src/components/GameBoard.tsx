@@ -99,7 +99,7 @@ const GameBoard: React.FC = () => {
   const isDigitCorrect = (digit: string, index: number): boolean => {
     // The winning sequence has TARGET_SEQUENCE followed by EMPTY_TILE
     const targetWithEmpty = TARGET_SEQUENCE.split("").concat([EMPTY_TILE]);
-    return targetWithEmpty[index] === digit && hasWon;
+    return targetWithEmpty[index] === digit;
   };
 
   // Find empty space index
@@ -121,7 +121,7 @@ const GameBoard: React.FC = () => {
           Slide to Rearrange
         </h1>
         <p className="text-sm text-gray-600 dark:text-gray-300 text-center max-w-md animate-slide-down" style={{ animationDelay: "0.2s" }}>
-          Click tiles next to the empty space to slide them. Arrange in order: <span className="font-mono font-medium">{TARGET_SEQUENCE}</span>
+          Click tiles next to the empty space to slide them.
         </p>
       </div>
       

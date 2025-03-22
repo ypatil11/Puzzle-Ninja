@@ -1,3 +1,4 @@
+
 // Game constants
 export const TARGET_SEQUENCE = "80139522";
 export const EMPTY_TILE = " "; // Empty space representation
@@ -158,7 +159,7 @@ export function getTileColor(number: string, isDarkMode: boolean): string {
       "bg-rose-100 text-rose-900 hover:bg-rose-200", // 9
       "bg-cyan-100 text-cyan-900 hover:bg-cyan-200", // 5
       "bg-fuchsia-100 text-fuchsia-900 hover:bg-fuchsia-200", // 2
-      "bg-orange-100 text-orange-900 hover:bg-orange-200", // 2
+      "bg-orange-100 text-orange-900 hover:bg-orange-200", // 2 (second 2)
       "bg-teal-100 text-teal-900 hover:bg-teal-200", // empty
     ],
     dark: [
@@ -169,7 +170,7 @@ export function getTileColor(number: string, isDarkMode: boolean): string {
       "bg-rose-900 text-rose-100 hover:bg-rose-800", // 9
       "bg-cyan-900 text-cyan-100 hover:bg-cyan-800", // 5
       "bg-fuchsia-900 text-fuchsia-100 hover:bg-fuchsia-800", // 2
-      "bg-orange-900 text-orange-100 hover:bg-orange-800", // 2
+      "bg-orange-900 text-orange-100 hover:bg-orange-800", // 2 (second 2)
       "bg-teal-900 text-teal-100 hover:bg-teal-800", // empty
     ]
   };
@@ -182,10 +183,17 @@ export function getTileColor(number: string, isDarkMode: boolean): string {
     "3": 3,
     "9": 4,
     "5": 5,
-    "2": 6,
-    "2": 7 // Note: This is a duplicate and will override the previous entry
+    "2": 6
   };
   
-  const colorIndex = colorMap[number] !== undefined ? colorMap[number] : number.charCodeAt(0) % 8;
+  // For the second "2" in the sequence, use a different color index
+  const currentSequence = TARGET_SEQUENCE.split("");
+  const firstTwoIndex = currentSequence.indexOf("2");
+  const secondTwoIndex = currentSequence.indexOf("2", firstTwoIndex + 1);
+  
+  const colorIndex = colorMap[number] !== undefined ? 
+    (number === "2" && parseInt(number) === secondTwoIndex ? 7 : colorMap[number]) : 
+    number.charCodeAt(0) % 8;
+  
   return isDarkMode ? colors.dark[colorIndex] : colors.light[colorIndex];
 }
