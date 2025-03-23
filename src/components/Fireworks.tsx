@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 interface Particle {
   id: number;
@@ -17,6 +17,7 @@ interface Particle {
 
 const Fireworks: React.FC = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const colors = [
     "#ff0000", "#00ff00", "#0000ff", "#ffff00", 
     "#ff00ff", "#00ffff", "#ff9900", "#9900ff"
@@ -54,6 +55,13 @@ const Fireworks: React.FC = () => {
   
   // Update particle positions
   useEffect(() => {
+    // Initialize and play the fireworks sound
+    audioRef.current = new Audio('/fireworks-sound.mp3');
+    audioRef.current.volume = 0.5; // Set volume to 50%
+    audioRef.current.play().catch(error => {
+      console.error('Error playing fireworks sound:', error);
+    });
+    
     let fireworkInterval: number;
     let animationId: number;
     
@@ -85,8 +93,15 @@ const Fireworks: React.FC = () => {
     animate();
     
     return () => {
+      // Clean up when component unmounts
       clearInterval(fireworkInterval);
       cancelAnimationFrame(animationId);
+      
+      // Stop and reset audio
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
     };
   }, []);
   
